@@ -3,6 +3,7 @@ package com.example.asterixapi;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,5 +27,11 @@ public class AsterixController {
         Characters newCharacters = new Characters(UUID.randomUUID().toString(), characters.name(), characters.age(), characters.profession());
         return characterRepo.save(newCharacters);
     }
-
+    @PutMapping("/characters/{id}")
+    public Characters changeCharacters(@PathVariable String id, @RequestBody Characters characters) {
+        if(!id.equals(characters.id())) {
+            throw new IllegalArgumentException("Character ID does not match");
+        }
+        return characterRepo.save(characters);
+    }
 }
